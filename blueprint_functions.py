@@ -89,38 +89,38 @@ def index():
 
 @example_blueprint.route('/map', methods=["GET", "POST"])
 def maps():
-  """ Render the map """
+    """ Render the map """
 
-  global lat_map, long_map
+    global lat_map, long_map
 
-  lat_map = request.args.get('latitude')
-  long_map = request.args.get('longitude')
-  Log_shell.Log(f"Request: latutude = {lat_map} - Longitude = {long_map}")
+    lat_map = request.args.get('latitude')
+    long_map = request.args.get('longitude')
+    Log_shell.Log(f"Request: latutude = {lat_map} - Longitude = {long_map}")
 
-  return render_template("index.html")
+    return render_template("index.html")
 
 @example_blueprint.route('/data_map', methods=["GET", "POST"])
 def data_map():
-  """ sends the data to create the map containing requested information """
+    """ sends the data to create the map containing requested information """
 
-  reference_latitude = 55.691076617416506
-  reference_longitude = 37.41297341861867      
+    reference_latitude = 55.691076617416506
+    reference_longitude = 37.41297341861867      
 
-  dist_MtoLocation = distance(reference_latitude, float(lat_map), reference_longitude, float(long_map))
+    dist_MtoLocation = distance(reference_latitude, float(lat_map), reference_longitude, float(long_map))
 
-  save_info.write_line(f"Distance between = {dist_MtoLocation}")
-  Log_shell.Log(f"Distance between = {dist_MtoLocation}")  
+    save_info.write_line(f"Distance between = {dist_MtoLocation}")
+    Log_shell.Log(f"Distance between = {dist_MtoLocation}")  
 
-  if dist_MtoLocation < 1000:
-      zoom = 20
-  else:
-      zoom = 2
-  
-  response = make_response(json.dumps([reference_latitude, reference_longitude, float(lat_map), float(long_map), zoom, dist_MtoLocation]))
+    if dist_MtoLocation < 1000:
+        zoom = 20
+    else:
+        zoom = 2
+    
+    response = make_response(json.dumps([reference_latitude, reference_longitude, float(lat_map), float(long_map), zoom, dist_MtoLocation]))
 
-  response.content_type = 'application/json'
-  
-  return response
+    response.content_type = 'application/json'
+    
+    return response
 
 #Error codes
 
