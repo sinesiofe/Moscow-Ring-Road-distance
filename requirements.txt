@@ -1,0 +1,7 @@
+flask
+time
+requests
+math
+numpy==1.18.4
+os
+sys
